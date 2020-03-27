@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  node:
+    build: ./contents/front
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./bowring_front:/bowring_front"
+    tty: true
