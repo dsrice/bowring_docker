@@ -1,10 +1,43 @@
 version: '3'
 
 services:
-  node:
-    build: ./contents/front
+  django:
+    build: ./contents/server
+    container_name: server
     ports:
       - "4200:4200"
     volumes:
-      - "./bowring_front:/bowring_front"
+      - "./bowringserver :/bowringserver"
+      - "./contents/server :/code" 
     tty: true
+
+  db:
+    build: ./contents/mysql
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bowring
+      MYSQL_USER: bowring
+      MYSQL_PASSWORD: bowring
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+    - ./contents/db/ :/var/lib/mysql
+    - ./contents/mysql/conf.d :/etc/mysql/conf.d/
+    - ./log/mysql :/var/log/mysql
+    ports:
+    - 43306:3306
+    user: "1000:50"
+
+  # phpMyAdmin
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    environment:
+    - PMA_ARBITRARY=1
+    - PMA_HOSTS=mysql
+    - PMA_USER=root
+    - PMA_PASSWORD=root
+    ports:
+    - 8080:80
