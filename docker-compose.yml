@@ -1,11 +1,20 @@
 version: '3'
 
 services:
+  front:
+    build: ./contents/front
+    container_name: front
+    ports:
+      - "4200:4200"
+    volumes:
+      - "./bowringfront :/bowringfront"
+    tty: true
+    
   django:
     build: ./contents/server
     container_name: server
     ports:
-      - "4200:4200"
+      - "8888:8888"
     volumes:
       - "./bowringserver :/bowringserver"
       - "./contents/server :/code" 
@@ -21,15 +30,15 @@ services:
       MYSQL_USER: bowring
       MYSQL_PASSWORD: bowring
       TZ: 'Asia/Tokyo'
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: --innodb-use-native-aio=0
     volumes:
-    - ./contents/db/ :/var/lib/mysql
+    - ./cache/db/ :/var/lib/mysql
     - ./contents/mysql/conf.d :/etc/mysql/conf.d/
     - ./log/mysql :/var/log/mysql
     ports:
-    - 43306:3306
+    - 3306:3306
     user: "1000:50"
-
+    
   # phpMyAdmin
   phpmyadmin:
     container_name: phpmyadmin

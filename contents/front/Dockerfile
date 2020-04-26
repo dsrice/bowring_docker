@@ -2,6 +2,7 @@ FROM node
 
 RUN npm install -g @angular/cli
 
-WORKDIR /bowring_front
+RUN mkdir /bowringfront
+WORKDIR /bowringfront
 
 EXPOSE 4200
