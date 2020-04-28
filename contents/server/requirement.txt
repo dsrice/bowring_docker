@@ -1,2 +1,6 @@
 Django
 psycopg2
+djangorestframework
+django-filter
+mysqlclient
+mysql-connector-python

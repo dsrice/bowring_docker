@@ -5,3 +5,5 @@ RUN chown mysql:mysql /var/log/mysql
 RUN chown mysql:mysql /var/lib/mysql
 RUN chown mysql:mysql /usr/sbin/mysqld 
 RUN touch /var/log/mysql/mysqld.log
+
+EXPOSE 3306

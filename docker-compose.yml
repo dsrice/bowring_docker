@@ -1,25 +1,6 @@
 version: '3'
 
 services:
-  front:
-    build: ./contents/front
-    container_name: front
-    ports:
-      - "4200:4200"
-    volumes:
-      - "./bowringfront :/bowringfront"
-    tty: true
-    
-  django:
-    build: ./contents/server
-    container_name: server
-    ports:
-      - "8888:8888"
-    volumes:
-      - "./bowringserver :/bowringserver"
-      - "./contents/server :/code" 
-    tty: true
-
   db:
     build: ./contents/mysql
     container_name: mysql
@@ -32,21 +13,43 @@ services:
       TZ: 'Asia/Tokyo'
     command: --innodb-use-native-aio=0
     volumes:
-    - ./cache/db/ :/var/lib/mysql
-    - ./contents/mysql/conf.d :/etc/mysql/conf.d/
-    - ./log/mysql :/var/log/mysql
+      - ./cache/db/ :/var/lib/mysql
+      - ./contents/mysql/conf.d :/etc/mysql/conf.d/
+      - ./log/mysql :/var/log/mysql
     ports:
-    - 3306:3306
-    user: "1000:50"
+      - 33306:3306
+
+  front:
+    build: ./contents/front
+    container_name: front
+    ports:
+      - "44200:4200"
+    volumes:
+      - "./bowringfront :/bowringfront"
+    tty: true
+    
+  django:
+    build: ./contents/server
+    container_name: server
+    restart: always
+    ports:
+      - "8000:8000"
+    command: sh -c "sleep 5; python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - "./bowringserver :/code/bowringserver"
+      - "./contents/server :/code" 
+    depends_on:
+      - db
+    tty: true
     
   # phpMyAdmin
   phpmyadmin:
     container_name: phpmyadmin
     image: phpmyadmin/phpmyadmin
     environment:
-    - PMA_ARBITRARY=1
-    - PMA_HOSTS=mysql
-    - PMA_USER=root
-    - PMA_PASSWORD=root
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
     ports:
-    - 8080:80
+      - 8080:80
