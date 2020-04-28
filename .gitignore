@@ -2,3 +2,6 @@ bowring_front/
 /
 contents/db/
 cache/
+bowringfront
+log/mysql/mysql-error.log
+log/mysql/mysql-slow.log
