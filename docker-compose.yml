@@ -23,7 +23,8 @@ services:
     build: ./contents/front
     container_name: front
     ports:
-      - "44200:4200"
+      - "4200:4200"
+    command: ng serve --host 0.0.0.0
     volumes:
       - "../bowring-front :/bowringfront"
     tty: true
