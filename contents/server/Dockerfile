@@ -4,8 +4,6 @@ RUN mkdir /code
 RUN apt-get update
 WORKDIR /code
 ADD requirement.txt /code/
-ADD run_django.sh /code/
-RUN chmod 777 run_django.sh
 RUN pip install -r requirement.txt
 ADD . /code/
 WORKDIR /code/bowringserver
