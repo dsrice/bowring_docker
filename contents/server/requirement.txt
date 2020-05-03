@@ -4,3 +4,4 @@ djangorestframework
 django-filter
 mysqlclient
 mysql-connector-python
+djangorestframework-jwt
